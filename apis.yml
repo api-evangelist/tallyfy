@@ -1,7 +1,26 @@
 aid: tallyfy
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/tallyfy.png
 name: Tallyfy
-description: Tallyfy is a company surfaced as a portfolio company of 500-global and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Tallyfy is workflow and business process management software that lets teams
+  document, launch, track, and automate repeatable processes, SOPs, approvals, and
+  forms without code. Its REST API models templates as "checklists" and processes as
+  "runs" and exposes tasks, form fields (captures), kick-off forms, guests, members,
+  groups, tags, and folders. Developers and AI agents can embed Tallyfy through the
+  REST API, outbound JSON webhooks, a public hosted MCP server (mcp.tallyfy.com), an
+  official Go CLI, and an n8n community node.
 url: https://raw.githubusercontent.com/api-evangelist/tallyfy/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,10 +30,43 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
-apis: []
+- Workflow Automation
+- Business Process Management
+- SOPs
+- Tasks
+- Approvals
+- Forms
+- Process Management
+- No-Code
+apis:
+- name: Tallyfy REST API
+  description: >-
+    REST API for Tallyfy workflow automation. Organization-scoped resources
+    (/organizations/{org_id}/checklists, /runs, /tasks, ...) with Bearer-token auth
+    (personal, application, or OAuth 2.0 access tokens), page/per_page pagination, a
+    { data } response envelope, and 429 + Retry-After rate limiting.
+  humanURL: https://tallyfy.com/products/pro/integrations/open-api/
+  baseURL: https://go.tallyfy.com/api/
+  properties:
+  - type: APIReference
+    url: https://go.tallyfy.com/api/
+  - type: Authentication
+    url: authentication/tallyfy-authentication.yml
+  - type: Conventions
+    url: conventions/tallyfy-conventions.yml
+  - type: DataModel
+    url: data-model/tallyfy-data-model.yml
+  - type: ErrorCatalog
+    url: errors/tallyfy-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/tallyfy-rate-limits.yml
+  - type: Conformance
+    url: conformance/tallyfy-conformance.yml
+  - type: Webhooks
+    url: asyncapi/tallyfy-webhooks.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -23,3 +75,64 @@ maintainers:
 common:
 - type: Website
   url: https://tallyfy.com
+- type: DeveloperPortal
+  url: https://tallyfy.com/products/pro/integrations/open-api/
+- type: Documentation
+  url: https://tallyfy.com/products/
+- type: APIReference
+  url: https://go.tallyfy.com/api/
+- type: GettingStarted
+  url: https://tallyfy.com/products/pro/integrations/open-api/how-to-integrate-with-tallyfy-using-api/
+- type: Authentication
+  url: authentication/tallyfy-authentication.yml
+- type: Conventions
+  url: conventions/tallyfy-conventions.yml
+- type: DataModel
+  url: data-model/tallyfy-data-model.yml
+- type: ErrorCatalog
+  url: errors/tallyfy-problem-types.yml
+- type: RateLimits
+  url: rate-limits/tallyfy-rate-limits.yml
+- type: Conformance
+  url: conformance/tallyfy-conformance.yml
+- type: Webhooks
+  url: asyncapi/tallyfy-webhooks.yml
+- type: MCPServer
+  url: mcp/tallyfy-mcp.yml
+- type: CLI
+  url: cli/tallyfy-cli.yml
+- type: Packages
+  url: packages/tallyfy-packages.yml
+- type: SDKs
+  url: packages/tallyfy-packages.yml
+- type: LLMsTxt
+  url: llms/tallyfy-llms.txt
+- type: WellKnown
+  url: well-known/tallyfy-well-known.yml
+- type: SecurityTxt
+  url: well-known/tallyfy-security.txt
+- type: DomainSecurity
+  url: security/tallyfy-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/tallyfy-vulnerability-disclosure.yml
+- type: Security
+  url: https://tallyfy.com/.well-known/security.txt
+- type: GitHubOrganization
+  url: https://github.com/tallyfy
+- type: Blog
+  url: https://tallyfy.com/blog/
+- type: Pricing
+  url: https://tallyfy.com/pricing/
+- type: Login
+  url: https://go.tallyfy.com
+- type: Support
+  url: https://tallyfy.com/contact-us/
+- type: TermsOfService
+  url: https://tallyfy.com/legal/
+- type: PrivacyPolicy
+  url: https://tallyfy.com/legal/privacy/
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 15
+  pass: local-v1

@@ -1,0 +1,25 @@
+generated: '2026-07-21'
+method: searched
+source: https://github.com/tallyfy
+packages:
+  - language: go
+    registry: pkg.go.dev
+    name: github.com/tallyfy/cli
+    url: https://pkg.go.dev/github.com/tallyfy/cli
+    install: go install github.com/tallyfy/cli/cmd/tallyfy@latest
+    official: true
+    notes: Official Tallyfy CLI (single static binary) plus an importable Go API client at pkg/tallyfy. Apache-2.0.
+  - language: shell
+    registry: homebrew
+    name: tallyfy/tap/tallyfy
+    url: https://github.com/tallyfy/homebrew-tap
+    install: brew install tallyfy/tap/tallyfy
+    official: true
+    notes: Homebrew tap that installs the Tallyfy CLI on macOS and Linux.
+  - language: javascript
+    registry: npm
+    name: n8n-nodes-tallyfy
+    url: https://github.com/tallyfy/n8n
+    install: npm install n8n-nodes-tallyfy
+    official: true
+    notes: Official n8n community node (60+ operations across blueprints, processes, tasks, forms, comments, users, groups, search). MIT.

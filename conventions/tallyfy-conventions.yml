@@ -1,0 +1,75 @@
+generated: '2026-07-21'
+method: searched
+source: https://tallyfy.com/products/pro/integrations/open-api/
+derived_from:
+  - https://raw.githubusercontent.com/tallyfy/cli/HEAD/pkg/tallyfy/client.go
+  - https://raw.githubusercontent.com/tallyfy/cli/HEAD/pkg/tallyfy/paginate.go
+authentication:
+  style: bearer-token
+  header: 'Authorization: Bearer {access_token}'
+  ref: authentication/tallyfy-authentication.yml
+base_url:
+  production: https://go.tallyfy.com/api/
+  api_host: https://api.tallyfy.com
+  reference: https://go.tallyfy.com/api/
+resource_scoping:
+  pattern: /organizations/{org_id}/{resource}
+  note: Most endpoints are scoped to an organization; the token is tied to the user's current organization.
+vocabulary_aliasing:
+  note: >-
+    The API uses historical names that differ from the web UI. Requests and
+    responses use the API names.
+  map:
+    - ui: Template
+      api: /checklists
+      aliases: [blueprint, checklist]
+    - ui: Process
+      api: /runs
+      aliases: [run, workflow]
+    - ui: Task
+      api: /tasks
+    - ui: Task form field
+      api: /form-fields
+      aliases: [capture]
+    - ui: Kick-off form field
+      api: /preruns
+      aliases: [prerun, KO form]
+response_envelope:
+  single_item: '{ "data": { ... } }'
+  collection: '{ "data": [ ... ], "meta": { ... } }'
+pagination:
+  style: page-number
+  request_params:
+    page: page number (1-based)
+    per_page: page size (CLI uses 100 when following all pages)
+  response_fields:
+    meta.current_page: current page number
+    meta.total_pages: total pages (may be absent)
+    links.next: link to the next page (used when total_pages is absent)
+  stop_condition: current_page >= total_pages, or an empty links.next
+field_expansion:
+  param: with
+  note: Comma-joined list of related resources to embed (e.g. ?with=a,b).
+rate_limit_signaling:
+  status: 429
+  headers: [Retry-After]
+  body_code: RATE_LIMIT_EXCEEDED
+  ref: rate-limits/tallyfy-rate-limits.yml
+error_envelope:
+  shape: '{ "message": "...", "code": "..." }'
+  ref: errors/tallyfy-problem-types.yml
+idempotency:
+  server_side_key: false
+  note: >-
+    Tallyfy does NOT document a server-side Idempotency-Key request header; write
+    requests are not declared idempotent. Tallyfy publishes CONSUMER-side idempotency
+    guidance for its at-least-once webhook delivery (template-level webhooks can fire
+    more than once per logical event). Recommended pattern: build a deduplication key
+    from webhook payload IDs (e.g. task id + completed_at, or task_id + event_type +
+    timestamp) and skip already-processed events.
+  docs: https://tallyfy.com/products/pro/integrations/handling-idempotency-in-webhooks-and-api/
+webhooks:
+  ref: asyncapi/tallyfy-webhooks.yml
+versioning:
+  scheme: unversioned-host
+  note: No version segment in the API path; the production base is https://go.tallyfy.com/api/.

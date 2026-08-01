@@ -1,0 +1,73 @@
+generated: '2026-07-21'
+method: searched
+source: https://github.com/tallyfy/cli
+docs: https://tallyfy.com
+name: tallyfy
+summary: >-
+  Official Tallyfy command-line interface - deterministic, scriptable workflow
+  automation. One static Go binary that launches processes, completes tasks,
+  exports and imports blueprints, and gates CI/CD pipelines on human approvals.
+  No browser and no AI client in the loop.
+language: go
+license: Apache-2.0
+binary_in_packages: packages/tallyfy-packages.yml
+install:
+  - method: homebrew
+    command: brew install tallyfy/tap/tallyfy
+  - method: go
+    command: go install github.com/tallyfy/cli/cmd/tallyfy@latest
+  - method: direct
+    command: download a release binary from https://github.com/tallyfy/cli/releases (verify checksum)
+auth:
+  login: tallyfy login   # opens browser to the token page, then paste the token
+  env: TALLYFY_API_TOKEN
+  note: Prefer an application token over a personal token for CI (personal tokens are invalidated on web logout).
+vocabulary_note: >-
+  The CLI leads with the UI words (blueprint, process) and accepts the API words
+  (checklist, run) as aliases.
+commands:
+  - group: auth
+    verbs: [login, whoami, auth, trust]
+  - group: org
+    verbs: [org list, org use]
+  - group: blueprint
+    aliases: [checklist]
+    verbs: [list, get, create, update, export, import]
+  - group: process
+    aliases: [run]
+    verbs: [launch, list, get]
+  - group: task
+    verbs: [list, get, complete, wait]
+  - group: folder
+    verbs: [list, get]
+  - group: group
+    verbs: [list, get]
+  - group: guest
+    verbs: [list, get]
+  - group: tag
+    verbs: [list, get]
+  - group: user
+    verbs: [list, get]
+  - group: kickoff
+    verbs: [kickoff]
+  - group: mcp
+    verbs: [mcp]
+  - group: config
+    verbs: [config, context, doctor, completion, update, version, api]
+key_flows:
+  - Workflows as code (export a blueprint to JSON, commit, review in a PR, promote sandbox to prod).
+  - Bulk operations (launch one process per CSV row with a dry-run and clean exit codes).
+  - CI/CD approval gates (block a deploy until a human approves a task: tallyfy task wait).
+  - Multi-org management (run one script across every organization).
+exit_codes:
+  0: Success
+  1: Generic error
+  2: Usage or bad flags
+  3: Authentication error
+  4: Blocked by a permission rule
+  5: Not found
+  6: Rate-limited after retries
+  7: Validation error
+  8: Blocked by a hook
+  9: Partial failure in a bulk operation
+settings_schema: https://cli.tallyfy.com/schemas/settings.json

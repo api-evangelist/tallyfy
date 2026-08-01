@@ -1,0 +1,25 @@
+generated: '2026-07-21'
+method: derived
+source: https://tallyfy.com/products/pro/integrations/open-api/
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: OAuth 2.0 implicit grant flow for third-party apps (authorizationUrl account.tallyfy.com/oauth/authorize, response_type=token).
+  - id: bearer-token-auth
+    conforms: true
+    evidence: 'All requests use Authorization: Bearer {access_token}.'
+  - id: rate-limiting-retry-after
+    conforms: true
+    evidence: HTTP 429 responses include a Retry-After header (RFC 6585 / 9110).
+  - id: webhooks
+    conforms: true
+    evidence: Outbound HTTP POST JSON webhooks on workflow events (task completion, process launch, status change).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Error envelope is a custom { message, code } object, not application/problem+json.
+  - id: openapi-published
+    conforms: false
+    evidence: No OpenAPI/Swagger document is served unauthenticated (api.tallyfy.com/openapi.json returns 401). An interactive API reference is at go.tallyfy.com/api/.
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration does not serve an OIDC discovery document (301).

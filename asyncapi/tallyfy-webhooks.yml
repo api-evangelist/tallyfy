@@ -1,0 +1,48 @@
+generated: '2026-07-21'
+method: searched
+source: https://tallyfy.com/products/pro/integrations/webhooks/
+spec_type: Webhooks   # Tallyfy documents webhooks but does not publish an AsyncAPI document
+summary: >-
+  Tallyfy sends structured JSON messages via HTTP POST to a URL you specify whenever
+  workflow events occur (task completion, process launch, status change). No polling.
+  Any system that can receive an HTTP POST can be a destination (middleware such as
+  n8n / Make / Power Automate / Zapier, custom APIs, serverless functions, RPA bots).
+transport:
+  method: POST
+  content_type: application/json
+delivery:
+  guarantee: at-least-once
+  note: >-
+    Template-level webhooks fire on every task completion in any process launched from
+    that template (a 10-task process yields 10 events), and also when the process is
+    launched. The same logical event can fire more than once (e.g. a task reopened and
+    recompleted). Consumers must deduplicate - see conventions/tallyfy-conventions.yml.
+configuration:
+  - scope: template
+    note: Set a webhook URL on a template; it fires for task completions across all its runs.
+events:
+  - name: task.completed
+    description: A task in a running process is completed.
+  - name: process.launched
+    description: A process (run) is launched from a template.
+  - name: status.changed
+    description: A process or task status changes.
+payload_example:
+  this_task:
+    id: abc123
+    title: Review document
+    alias: review_doc
+    status: completed
+    completed_at: '2024-01-15T10:30:00Z'
+    completed_by:
+      email: user@example.com
+    captures: {}
+  process:
+    id: xyz789
+    name: Document Review
+    status: active
+docs:
+  overview: https://tallyfy.com/products/pro/integrations/webhooks/
+  setup: https://tallyfy.com/products/pro/integrations/webhooks/how-to-set-up-webhooks-in-tallyfy/
+  payload_structure: https://tallyfy.com/products/pro/integrations/webhooks/webhook-payload-structure/
+  idempotency: https://tallyfy.com/products/pro/integrations/handling-idempotency-in-webhooks-and-api/

@@ -1,0 +1,97 @@
+generated: '2026-07-21'
+method: derived
+source: >-
+  https://tallyfy.com/products/pro/integrations/open-api/how-to-integrate-with-tallyfy-using-api/#api-terminology
+  + https://raw.githubusercontent.com/tallyfy/cli/HEAD/pkg/tallyfy/resources.go
+note: >-
+  Derived from Tallyfy's documented API-terminology map and the official CLI client's
+  resource paths (no public OpenAPI is served unauthenticated). API names differ from
+  the UI: template=checklist, process=run.
+entities:
+  - name: organization
+    path: /organizations/{org_id}
+    description: Tenant. Nearly every other resource is nested under an organization.
+  - name: checklist
+    ui_name: template (blueprint)
+    path: /organizations/{org_id}/checklists
+    description: A reusable workflow template made of steps.
+  - name: run
+    ui_name: process
+    path: /organizations/{org_id}/runs
+    description: A running instance launched from a checklist.
+  - name: task
+    path: /organizations/{org_id}/tasks
+    description: A step that has become actionable inside a running process.
+  - name: form-field
+    ui_name: capture
+    path: /form-fields
+    description: Data collected inside a task.
+  - name: prerun
+    ui_name: kick-off form field
+    path: /preruns
+    description: Data collected before a process starts.
+  - name: member
+    ui_name: user
+    path: /organizations/{org_id}/users
+    description: A user belonging to an organization.
+  - name: guest
+    path: /organizations/{org_id}/guests
+    description: An external participant identified by email.
+  - name: group
+    path: /organizations/{org_id}/groups
+  - name: tag
+    path: /organizations/{org_id}/tags
+  - name: folder
+    path: /organizations/{org_id}/folders
+  - name: comment
+    ui_name: thread (comment/problem)
+    path: /runs/{id}/comment, /checklists/{id}/comment
+  - name: file
+    description: Attachment uploaded to and downloaded from tasks/processes.
+relationships:
+  - from: organization
+    to: checklist
+    type: has_many
+  - from: organization
+    to: run
+    type: has_many
+  - from: organization
+    to: member
+    type: has_many
+    via: users
+  - from: organization
+    to: guest
+    type: has_many
+  - from: organization
+    to: group
+    type: has_many
+  - from: organization
+    to: tag
+    type: has_many
+  - from: organization
+    to: folder
+    type: has_many
+  - from: run
+    to: checklist
+    type: belongs_to
+    note: A checklist becomes a run when launched.
+  - from: task
+    to: run
+    type: belongs_to
+    note: A step becomes a task once the process is running.
+  - from: form-field
+    to: task
+    type: belongs_to
+  - from: prerun
+    to: run
+    type: belongs_to
+  - from: comment
+    to: run
+    type: belongs_to
+  - from: comment
+    to: checklist
+    type: belongs_to
+  - from: member
+    to: organization
+    type: belongs_to
+    note: A user can belong to multiple organizations.

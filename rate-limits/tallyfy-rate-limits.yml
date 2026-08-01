@@ -1,0 +1,32 @@
+generated: '2026-07-21'
+method: searched
+source: https://tallyfy.com/products/pro/integrations/open-api/
+summary: >-
+  Tallyfy rate-limits API calls at two layers. Crossing a limit returns HTTP 429
+  with a Retry-After header (seconds to wait). Hourly caps also include a JSON body
+  with code RATE_LIMIT_EXCEEDED and a human-readable message naming the specific
+  action and its cap.
+signal:
+  status: 429
+  headers:
+    - name: Retry-After
+      description: Seconds to wait before retrying.
+  body:
+    code: RATE_LIMIT_EXCEEDED
+    fields: [message, code]
+layers:
+  - name: rate limit
+    description: Short-window throttle on API call speed; returns 429 + Retry-After.
+  - name: hourly cap
+    description: >-
+      Per-action, per-organization hourly caps. Example published limit -
+      Guest Invite is capped at 30 per hour per organization.
+limits:
+  - action: Guest Invite
+    limit_count: 30
+    window: hour
+    scope: organization
+guidance:
+  - Wait the number of seconds in Retry-After, then retry.
+  - Implement caching or batching if hitting limits regularly.
+  - Contact support for high-volume use cases.

@@ -1,0 +1,42 @@
+generated: '2026-07-21'
+method: derived
+source: >-
+  https://tallyfy.com/products/pro/integrations/open-api/ (rate-limit body) +
+  https://raw.githubusercontent.com/tallyfy/cli/HEAD/internal/cli/exit.go (CLI exit-code map)
+format: custom   # envelope is { "message": "...", "code": "..." } - NOT RFC 9457 problem+json
+envelope:
+  shape: '{ "message": "...", "code": "..." }'
+note: >-
+  Tallyfy does not publish an OpenAPI document unauthenticated, so this catalog is
+  derived from the documented rate-limit error body and the official CLI's stable
+  HTTP-status-to-exit-code mapping. Titles/remediation reflect standard REST semantics
+  for this API.
+problems:
+  - status: 400
+    title: Bad request
+    remediation: Fix the request shape or parameters.
+  - status: 401
+    code: null
+    title: Authentication error
+    cli_exit_code: 3
+    remediation: Provide a valid Bearer token (personal, application, or OAuth access token).
+  - status: 403
+    title: Blocked by a permission rule
+    cli_exit_code: 4
+    remediation: The authenticated user lacks permission for this action in this organization.
+  - status: 404
+    title: Not found
+    cli_exit_code: 5
+    remediation: Verify the organization id and resource id in the path.
+  - status: 422
+    title: Validation error
+    cli_exit_code: 7
+    remediation: Correct the invalid fields in the request body.
+  - status: 429
+    code: RATE_LIMIT_EXCEEDED
+    title: Rate limit exceeded
+    cli_exit_code: 6
+    remediation: Wait the number of seconds in the Retry-After header, then retry; batch or cache if hitting caps.
+  - status: 500
+    title: Server error
+    remediation: Retry with backoff; contact support if persistent.

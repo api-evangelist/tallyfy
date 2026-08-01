@@ -1,0 +1,46 @@
+generated: '2026-07-21'
+method: searched
+status: published
+source: https://github.com/tallyfy/mcp-public
+docs: https://tallyfy.com/products/pro/integrations/mcp-server/
+server:
+  name: tallyfy
+  transport: http          # streamable HTTP
+  url: https://mcp.tallyfy.com/
+  auth: oauth2             # OAuth against the user's Tallyfy account; tools act with the signed-in user's permissions
+  tool_count: 108
+description: >-
+  Official public, hosted Tallyfy MCP server. Every tool calls the public Tallyfy
+  REST API on behalf of the authenticated user, so an assistant only ever sees data
+  the signed-in user is allowed to see. Open source (Apache-2.0, FastMCP/Python).
+tool_categories:
+  - name: task_management
+    summary: Create, complete, reassign, comment on, and search tasks.
+  - name: process_management
+    summary: Launch processes (runs) from a template, advance and track steps.
+  - name: template_management
+    summary: Read, create, and edit templates (checklists) and their steps.
+  - name: form_fields
+    summary: Read and populate kick-off and step form fields (captures).
+  - name: automation
+    summary: Inspect and manage automated actions and rules.
+  - name: user_management
+    summary: Manage users and organization membership.
+  - name: group_management
+    summary: Manage groups.
+  - name: guest_management
+    summary: Manage external guests.
+  - name: tag_management
+    summary: Manage tags.
+  - name: folder_management
+    summary: Manage folders.
+  - name: comment_management
+    summary: Read and post comments and issues on processes and templates.
+  - name: search
+    summary: Cross-organization search across Tallyfy objects.
+  - name: user_interaction
+    summary: Assistant-facing interaction helpers.
+  - name: template_mapping_validation
+    summary: Validate template mappings before creation.
+  - name: api_fallback
+    summary: Direct API pass-through for operations without a dedicated tool.
