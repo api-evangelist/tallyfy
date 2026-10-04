@@ -44,7 +44,7 @@ created: '2026-07-17'
 modified: '2026-07-21'
 tags:
 - Company
-- Workflow-Automation
+- Workflow Automation
 - Business Process Management
 - SOPs
 - Task
@@ -62,6 +62,7 @@ tags_raw:
 - Forms
 - Process Management
 - No-Code
+- Workflow-Automation
 apis:
 - name: Tallyfy REST API
   description: >-
